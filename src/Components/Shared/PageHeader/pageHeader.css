@@ -1,0 +1,41 @@
+.section-top {
+  padding-top: 200px;
+  position: relative;
+  background: #151a32;
+  padding-bottom: 120px;
+}
+.section-top-title {
+  position: relative;
+}
+@media only screen and (max-width: 480px) {
+  .section-top-title {
+    width: 100%;
+  }
+}
+.section-top-title h1 {
+  margin-bottom: 10px;
+  text-transform: capitalize;
+  font-weight: 700;
+  font-size: 50px;
+}
+.section-top-title ul {
+  background: #3f3eed;
+  text-align: center;
+  border: 2px solid #3f3eed;
+  padding: 10px 20px;
+  width: 200px;
+  margin: auto;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+.section-top-title ul li {
+  color: #fff !important;
+  display: inline-block;
+}
+.section-top-title ul li a {
+  color: #ffe06f !important;
+  font-weight: 700;
+}
+.section-top-title ul li a:hover {
+  color: #fff !important;
+}

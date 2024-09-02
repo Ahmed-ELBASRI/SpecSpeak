@@ -1,0 +1,91 @@
+.lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.lightbox__content {
+  max-width: 80%;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 0 3px 4px rgba(0, 0, 0, 0.1);
+}
+.lightbox__content .close_button {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--white);
+  z-index: 1000;
+}
+.lightbox__content .image-container {
+  margin: 20px 0;
+}
+.lightbox__content .image_count {
+  font-size: 14px;
+  color: var(--pra);
+  position: absolute;
+  right: 15px;
+  bottom: -7px;
+  font-size: 14px;
+}
+
+.lightbox__content-video  {
+  width: 750px;
+  height: 450px;
+}
+iframe{
+  width: 100%;
+  height: 100%;
+}
+@media (max-width: 991px) {
+  .lightbox__content-video  {
+    width: 680px;
+    height: 400px;
+  }
+}
+@media (max-width: 768px) {
+  .lightbox__content-video  {
+    width: 600px;
+    height: 400px;
+  }
+}
+@media (max-width: 511px) {
+  .lightbox__content-video  {
+    max-width: 400px;
+    width: 100%;
+    height: 300px;
+  }
+}
+
+
+
+.lightbox__btns {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+}
+.lightbox__btns .prev__button,
+.lightbox__btns .next__button {
+  background: transparent;
+  color: var(--white);
+  border: none;
+  padding: 10px 20px;
+  margin: 10px;
+  cursor: pointer;
+}
+.lightbox__btns .prev__button i,
+.lightbox__btns .next__button i {
+  font-size: 22px;
+}

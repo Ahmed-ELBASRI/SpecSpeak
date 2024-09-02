@@ -1,0 +1,119 @@
+.home_bg {
+  height: 750px;
+  position: relative;
+}
+@media only screen and (max-width: 480px) {
+  .home_bg {
+    height: 850px;
+  }
+}
+.about_me_content {
+  padding-top: 250px;
+  position: relative;
+}
+@media only screen and (max-width: 768px) {
+  .about_me_content {
+    padding-left: 30px;
+    padding-right: 20px;
+  }
+}
+.about_me_content h1 {
+  font-size: 58px;
+  font-weight: 900;
+  text-transform: capitalize;
+  line-height: 70px;
+  margin-bottom: 20px;
+}
+@media only screen and (max-width: 880px) {
+  .about_me_content h1 {
+    font-size: 40px;
+    line-height: 50px;
+  }
+}
+.about_me_content h1 span {
+  color: transparent;
+  padding: 0 !important;
+  -webkit-text-stroke: 1px #ffe06f;
+}
+
+.about_me_content h1 b {
+  font-size: 58px;
+  font-weight: 900;
+  text-transform: capitalize;
+}
+.about_me_content p {
+  margin-bottom: 40px;
+  font-weight: 400;
+  font-size: 18px;
+  width: 70%;
+  margin: auto;
+  margin-bottom: 30px;
+}
+.home_btn {
+  position: relative;
+}
+@media only screen and (max-width: 480px) {
+  .home_btn {
+    margin-left: 30px;
+  }
+}
+@media only screen and (max-width: 480px) {
+  .home_btn {
+    margin-top: 30px;
+  }
+}
+
+.home_one {
+  background: #ffe06f;
+  border: 1px solid #ffe06f;
+  border-radius: 5px;
+  color: #232434;
+  font-size: 18px;
+  padding: 14px 40px;
+  text-transform: capitalize;
+  -webkit-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+  border-radius: 5px;
+  display: inline-block;
+  font-weight: 700;
+}
+.home_one:hover,
+.home_one:focus {
+  background: #3f3eed;
+  border: 1px solid #3f3eed;
+  color: #fff;
+  -webkit-box-shadow: 10px 15px 18px rgba(23, 23, 36, 0.1);
+  box-shadow: 10px 15px 18px rgba(23, 23, 36, 0.1);
+}
+/*Image style coding*/
+.profile_img {
+  padding-top: 200px;
+}
+@media only screen and (max-width: 812px) {
+  .profile_img {
+    padding-top: 100px;
+    text-align: center;
+  }
+}
+.profile_img img {
+}
+
+.home_socials {
+}
+.home_socials ul {
+}
+.home_socials ul li {
+  float: left;
+}
+.home_socials ul li a {
+  color: #1b1e22;
+  margin-right: 15px;
+  font-size: 20px;
+  -webkit-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+}
+.home_socials ul li a:hover {
+  color: #6138bd;
+}

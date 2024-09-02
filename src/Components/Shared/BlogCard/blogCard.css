@@ -1,0 +1,92 @@
+.arti_single {
+  background: #151a32;
+  padding: 30px;
+  border: 1px solid #151a32;
+  overflow: hidden;
+  border-radius: 10px;
+  -webkit-box-shadow: 0px 0px 150px 0px rgba(78, 67, 250, 0.06);
+  box-shadow: 0px 0px 150px 0px rgba(78, 67, 250, 0.06);
+  margin-bottom: 30px;
+}
+.arti_img {
+  position: relative;
+}
+.arti_img_two {
+  position: relative;
+}
+.arti_img_two img {
+  margin-bottom: 20px;
+  width: 100%;
+}
+@media only screen and (max-width: 880px) {
+  .arti_img_two img {
+    margin-bottom: 20px;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+.arti_img img {
+  float: left;
+  width: 50%;
+  margin-right: 25px;
+  position: relative;
+}
+.arti_img a {
+  position: absolute;
+  left: 5%;
+  background: #ffe06f;
+  margin-top: 3%;
+  color: #232434;
+  padding: 7px 15px;
+  border-radius: 30px;
+  font-weight: 600;
+  -webkit-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+}
+.arti_img_two a {
+  position: absolute;
+  left: 10%;
+  background: #ffe06f;
+  margin-top: 4%;
+  color: #232434;
+  padding: 7px 15px;
+  border-radius: 30px;
+  font-weight: 600;
+  -webkit-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+}
+.arti_img a:hover {
+  background: #ffe06f;
+  color: #232434;
+}
+.arti_content {
+  overflow: hidden;
+}
+.arti_content {
+}
+.arti_content span {
+  font-weight: 500;
+  margin-right: 15px;
+  font-family: "Mulish", sans-serif;
+}
+.arti_content span i {
+  color: #ffe06f;
+}
+.arti_content h3 {
+  font-weight: 700;
+  font-size: 24px;
+  margin-top: 15px;
+  line-height: 34px;
+}
+.arti_content h3 a {
+  color: #fff;
+}
+.arti_content h3 a:hover {
+  color: #ffe06f;
+}
+.ac_two span {
+  display: inline-block;
+  margin-bottom: 5px;
+}

@@ -1,0 +1,36 @@
+.section-title {
+  margin-bottom: 60px;
+  position: relative;
+}
+
+.section-title h2 {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0;
+  line-height: 1px;
+  margin: 0 0 5px 0;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #ffe06f;
+}
+
+.section-title h2::after {
+  content: "";
+  width: 120px;
+  height: 1px;
+  display: inline-block;
+  background: #ffe06f;
+  margin: 4px 10px;
+}
+.section-title p {
+  width: 60%;
+  margin: 0;
+  font-size: 32px;
+  color: #fff;
+  font-weight: 800;
+  text-transform: capitalize;
+  line-height: 44px;
+}
+.section-title p span {
+  color: #ffe06f;
+}

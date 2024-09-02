@@ -1,0 +1,100 @@
+.hiw_area {
+  position: relative;
+  background: #151a32;
+  padding-bottom: 0px;
+}
+.single_hiw {
+  position: relative;
+}
+@media only screen and (max-width: 880px) {
+  .single_hiw {
+    margin-bottom: 30px;
+  }
+}
+.single_hiw_content {
+  background: #0e1123;
+  overflow: hidden;
+  padding: 30px;
+  -webkit-box-shadow: 0px 0px 150px 0px rgba(78, 67, 250, 0.06);
+  box-shadow: 0px 0px 150px 0px rgba(78, 67, 250, 0.06);
+  border-radius: 0px 10px 10px 10px;
+}
+.single_hiw h3 {
+  font-weight: 700;
+  margin-bottom: 15px;
+  font-size: 24px;
+}
+.single_hiw p {
+  overflow: hidden;
+}
+.sh_title {
+  color: #232434;
+  float: left;
+  background: #ffe06f;
+  border-radius: 0px;
+  width: 80px;
+  height: 80px;
+  text-align: center;
+  line-height: 80px;
+  font-size: 30px;
+  font-weight: 700;
+  border-radius: 10px 0px 0px 0px;
+}
+.vp_top {
+  margin-top: 80px !important;
+}
+.video_promotion {
+  position: relative;
+}
+.video_promotion img {
+  margin-bottom: -150px;
+  width: 100%;
+  background: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  -webkit-box-shadow: 0px 0px 150px 0px rgba(78, 67, 250, 0.06);
+  box-shadow: 0px 0px 150px 0px rgba(78, 67, 250, 0.06);
+  border: 1px solid #ededed;
+}
+
+
+.video-play {
+  display: block;
+  position: absolute;
+  top: 45%;
+  left: 45%;
+}
+.video-play i {
+  background: #ffe06f;
+  color: #fff;
+  width: 120px;
+  height: 120px;
+  line-height: 120px;
+  text-align: center;
+  border-radius: 100px;
+  display: inline-block;
+  -webkit-box-shadow: 10px 15px 18px rgba(23, 23, 36, 0.15);
+  box-shadow: 10px 15px 18px rgba(23, 23, 36, 0.15);
+  -webkit-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+  font-size: 40px;
+}
+.video-play:hover i {
+  background: #3f3eed;
+  color: #fff;
+}
+@media only screen and (max-width: 480px) {
+  .video-play i {
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+    font-size: 30px;
+  }
+  .video-play {
+    display: block;
+    position: absolute;
+    top: 60%;
+    left: 40%;
+  }
+}

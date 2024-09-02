@@ -1,0 +1,20 @@
+.about-page{padding-bottom:50px;}
+.ap-content{
+padding:30px;
+border:1px solid #ffe06f;
+margin-bottom:30px;
+-webkit-box-shadow: 0px 0px 150px 0px rgba(78, 67, 250, 0.06);
+        box-shadow: 0px 0px 150px 0px rgba(78, 67, 250, 0.06);
+}
+.ap-content h1{
+font-weight:700;
+font-size:40px;
+margin-bottom:20px;
+}
+.ap-content p{}
+.ap-content a {
+	color: #ffe06f;
+}
+.ap-content a:hover {
+	color: #3f3eed;
+}
