@@ -29,7 +29,7 @@ const useFullLink = [
 ];
 const Footer = () => {
   return (
-    <footer className="footer section-padding">
+    <footer className="footer ">
       <div className="container">
         <div className="row">
           <div className="col-lg-3 col-sm-6 col-xs-12">

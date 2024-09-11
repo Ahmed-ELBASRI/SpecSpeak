@@ -11,7 +11,7 @@ const Banner = () => {
           <div className="offset-lg-1 col-lg-10 col-sm-12 col-xs-12 text-center">
             <div className="about_me_content">
               <h1 className="cd-headline clip">
-                Explore, Understand & Enhance Your{" "}
+                Explore, Understand & Enhance Your <br></br>{" "}
                 <span className="cd-words-wrapper">
                   <TypeAnimation
                     sequence={[
