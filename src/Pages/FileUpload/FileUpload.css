@@ -129,3 +129,6 @@ strong{
 .drop-file-preview__item:hover .drop-file-preview__item__del {
   opacity: 1;
 }
+.close-x{
+  color: #0e1123;
+}
