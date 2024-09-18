@@ -1,49 +1,30 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
-import CardsConent from "./CardsContent";
-import { analyzeAPI } from "../Services/ChatService"; // Adjust the import path as necessary
 import "./ChatConversation.css";
-import Loading  from "../Loading/Loading";
+import Loading from "../Loading/Loading";
 import ChatMessage from "../ChatMessage/ChatMessage";
-import { continueConversation } from "../Services/ChatService";
-
+import CardsConent from "./CardsContent";
+import { continueConversation } from "../Services/ChatService"; // New import
+import axios from "axios";
 const ChatConversation = () => {
   const [message, setMessage] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
   const [chatMessages, setChatMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
-    // Retrieve the uploaded file's result from localStorage
-    const uploadedFile = JSON.parse(localStorage.getItem("uploadedFile"));
-
-    if (uploadedFile) {
-      const analyzeFile = async () => {
-        setIsLoading(true); // Start loading spinner
-        try {
-          const analysisResponse = await analyzeAPI(uploadedFile);
-          if (analysisResponse) {
-            setChatMessages((prevMessages) => [
-              ...prevMessages,
-              {
-                sender: "AI",
-                content: analysisResponse.choices[0].message.content,
-              },
-            ]);
-          } else {
-            throw new Error("Analysis failed.");
-          }
-        } catch (error) {
-          console.error("Error analyzing file:", error);
-          addErrorMessage("Error analyzing file. Please try again.");
-        } finally {
-          setIsLoading(false); // Stop loading spinner after analysis completes
-        }
-      };
-
-      analyzeFile();
-      localStorage.removeItem("uploadedFile"); // Clean up after processing
+    const analysisResult = JSON.parse(localStorage.getItem("analysisResult"));
+    if (analysisResult) {
+      setChatMessages([
+        { sender: "AI", content: analysisResult.choices[0].message.content }
+      ]);
+      // localStorage.removeItem("analysisResult"); 
+    } else {
+      setChatMessages([
+        { sender: "System", content: "No data found in localStorage." }
+      ]);
     }
   }, []);
+
   const handleMessageChange = (e) => setMessage(e.target.value);
 
   const handleSendMessage = async (e) => {
@@ -52,50 +33,41 @@ const ChatConversation = () => {
 
     // Display the user's message in the chat
     setChatMessages((prevMessages) => [
-        ...prevMessages,
-        { sender: "You", content: message },
+      ...prevMessages,
+      { sender: "You", content: message },
     ]);
     setMessage("");
     setIsDisabled(true);
     setIsLoading(true);
 
     try {
-        // Log the message for debugging purposes
-        console.log("Sending message to continueConversation:", message);
+      // Log the message for debugging purposes
+      console.log("Sending message to continueConversation:", message);
 
-        // Use `continueConversation` for ongoing conversations
-        const response = await continueConversation(message);
+      // Use `continueConversation` for ongoing conversations
+      const response = await continueConversation(message);
 
-        // Log the entire response for debugging purposes
-        console.log("Received response:", response);
-
-        // Check if the response is a string or object and handle accordingly
-        const llmMessage = typeof response === "string" ? response : response?.choices?.[0]?.message?.content;
-
-        if (llmMessage) {
-            // Log the extracted message for debugging
-            console.log("Extracted llmMessage:", llmMessage);
-
-            if (!llmMessage.startsWith("If you want to call this API request:")) {
-                setChatMessages((prevMessages) => [
-                    ...prevMessages,
-                    { sender: "AI", content: llmMessage },
-                ]);
-            }
-            extractApiRequestDetails(llmMessage);
-        } else {
-            addErrorMessage("No valid response received from the API.");
-        }
+      // const responseContent  = response.choices[0].message.content;
+      console.log("Received response:", response);
+      if (response ) {
+        // Log the extracted message for debugging
+        console.log("Extracted response:", response );
+          setChatMessages((prevMessages) => [
+            ...prevMessages,
+            { sender: "AI", content: response.choices[0].message.content },
+          ]);
+        
+      } else {
+        addErrorMessage("No valid response received from the API.");
+      }
     } catch (error) {
-        console.error("Error continuing conversation:", error);
-        addErrorMessage("Error continuing conversation. Please try again.");
+      console.error("Error continuing conversation:", error);
+      addErrorMessage("Error continuing conversation. Please try again.");
     } finally {
-        setIsDisabled(false);
-        setIsLoading(false);
+      setIsDisabled(false);
+      setIsLoading(false);
     }
-};
-
-
+  };
 
   const addErrorMessage = (message) => {
     setChatMessages((prevMessages) => [
@@ -104,60 +76,6 @@ const ChatConversation = () => {
     ]);
   };
 
-  const callApiAndDisplayResponse = async (url, method, requestBody) => {
-    try {
-      const config = {
-        method: method.toLowerCase(),
-        url: url,
-        data: requestBody,
-      };
-
-      const response = await axios(config);
-      const formattedResponse = `
-        GET ${url}
-        
-        HTTP/1.1 200
-        ${JSON.stringify(response.data, null, 2)}
-      `;
-
-      setChatMessages((prevMessages) => [
-        ...prevMessages,
-        { sender: "API Response", content: formattedResponse },
-      ]);
-    } catch (error) {
-      console.error("Error calling API:", error);
-      addErrorMessage("Error calling the API. Please try again.");
-    }
-  };
-
-  const extractApiRequestDetails = (content) => {
-    const triggerPhrase = "If you want to call this API request:";
-    if (content.startsWith(triggerPhrase)) {
-      const jsonString = content.slice(
-        content.indexOf("{"),
-        content.lastIndexOf("}") + 1
-      );
-      try {
-        const apiDetails = JSON.parse(jsonString);
-        callApiAndDisplayResponse(
-          apiDetails.url,
-          apiDetails.method,
-          apiDetails.requestBody
-        );
-      } catch (error) {
-        console.error("Error parsing JSON:", error);
-      }
-    }
-  };
-
-  const isCodeContent = (content) => {
-    try {
-      JSON.parse(content);
-      return true;
-    } catch {
-      return false;
-    }
-  };
 
   return (
     <main className="sm:w-[90%] md:w-[70%] w-full mt-10 mx-auto flex flex-col items-center justify-center px-4">
@@ -171,7 +89,7 @@ const ChatConversation = () => {
               <div
                 key={index}
                 className="w-64 flex gap-3 px-4 text-zinc-200 text-sm flex-1 border-b border-gray-700 py-4"
-                style={{ width: "55rem", fontSize:"1.1rem"}}
+                style={{ width: "55rem", fontSize: "1.1rem" }}
               >
                 <span className="flex items-center justify-center shrink-0 overflow-hidden rounded-lg w-7 h-7 bg-gray-900 border border-gray-700">
                   {msg.sender === "You" ? (
@@ -205,7 +123,7 @@ const ChatConversation = () => {
                     </svg>
                   )}
                 </span>
-                  <ChatMessage message={msg.content} ></ChatMessage>
+                <ChatMessage message={msg.content} />
               </div>
             ))}
           </div>
@@ -213,20 +131,21 @@ const ChatConversation = () => {
       )}
       <form
         onSubmit={handleSendMessage}
-        className="w-full flex justify-center gap-3 mt-3 py-2 items-center rounded-lg"
+        className="relative w-full mt-4 flex items-center"
       >
-        <textarea
+        <input
+          type="text"
+          name="text"
           value={message}
           onChange={handleMessageChange}
           disabled={isDisabled}
-          rows={2}
+          className="bg-gray-800 p-4 rounded-lg text-zinc-200 w-full text-lg focus:outline-none focus:ring-2 focus:ring-gray-600 mr-5"
           placeholder="Enter your message..."
-          className="w-4/5 max-h-[300px] rounded-lg resize-none px-3 py-2 text-zinc-200 bg-gray-800 border-gray-700 border-2 focus:border-gray-400 focus:outline-none"
-        ></textarea>
+        />
         <button
           type="submit"
-          disabled={isDisabled}
           className="w-[120px] rounded-lg bg-blue-600 hover:bg-blue-500 text-white py-2 px-4"
+          disabled={isDisabled}
         >
           {isLoading ? "Sending..." : "Send"}
         </button>

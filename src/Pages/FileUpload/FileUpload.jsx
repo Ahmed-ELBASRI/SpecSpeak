@@ -4,7 +4,7 @@ import "./FileUpload.css";
 import { Image } from "./Image.js";
 import PageHeader from "../../Components/Shared/PageHeader/PageHeader";
 import { ScrollRestoration, useNavigate } from "react-router-dom";
-import { uploadOpenAPIFile } from "../../Components/Services/ChatService";
+import { extractApiDetails } from "../../Components/Services/ChatService"; // Updated function to handle upload and extraction
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 
@@ -53,28 +53,28 @@ const FileUpload = (props) => {
       setUploadStatus("Please select a file to upload.");
       return;
     }
-
+  
     try {
       setUploadStatus("Uploading...");
-      const response = await uploadOpenAPIFile(fileList[0]);
-
+      const response = await extractApiDetails(fileList[0]);
+  
       if (!response) {
         setUploadStatus("Error uploading file. Please try again.");
         setToastSeverity("warning");
         setShowToast(true);
         return;
       }
-
-      // Store the uploaded file's result in localStorage
-      localStorage.setItem("uploadedFile", JSON.stringify(response));
-      setUploadStatus("File uploaded successfully.");
+  
+      // Store the API endpoints' result in localStorage
+      localStorage.setItem("apiEndpoints", JSON.stringify(response));
+      setUploadStatus("File uploaded and extracted successfully.");
       setToastSeverity("success");
       setShowToast(true);
-
-      // Redirect to Chat page after showing success toast for 3 seconds
+  
+      // Redirect to the Extraction Table page after showing success toast for 3 seconds
       setTimeout(() => {
         setShowToast(false);
-        navigate("/chat");
+        navigate("/endpoints");
       }, 3000);
     } catch (error) {
       console.error("Error during file upload:", error);
@@ -83,6 +83,7 @@ const FileUpload = (props) => {
       setShowToast(true);
     }
   };
+  
 
   const handleClose = () => {
     setShowToast(false);
@@ -146,7 +147,12 @@ const FileUpload = (props) => {
 
       {/* Toast notifications */}
       {showToast && (
-        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
+        <Snackbar
+          open={showToast}
+          autoHideDuration={6000}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        >
           <Alert
             onClose={handleClose}
             severity={toastSeverity}

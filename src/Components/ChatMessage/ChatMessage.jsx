@@ -1,30 +1,36 @@
 import React, { useState, useEffect, memo } from "react";
 import PropTypes from "prop-types";
 
-const TypedText = ({ message, delay = 10 }) => {
+const TypedText = ({ message = "", delay = 10 }) => {
   const [revealedLetters, setRevealedLetters] = useState(0);
+
+  // Ensure that message is a string
+  const safeMessage = typeof message === "string" ? message : JSON.stringify(message);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setRevealedLetters((l) => l + 1);
     }, delay);
 
-    if (revealedLetters >= message.length) {
+    if (revealedLetters >= safeMessage.length) {
       clearInterval(interval);
     }
 
     return () => clearInterval(interval);
-  }, [message, delay, revealedLetters]);
+  }, [safeMessage, delay, revealedLetters]);
 
-  // Format the partially typed message by replacing newlines with <br />
-  const formattedMessage = message
-    .substring(0, revealedLetters)
-    .replace(/\n/g, "<br />");
+  // Format the partially typed message by splitting on newline and inserting <br />
+  const formattedMessage = safeMessage.substring(0, revealedLetters).split("\n");
 
   return (
-    <span
-      dangerouslySetInnerHTML={{ __html: formattedMessage }}
-    />
+    <span>
+      {formattedMessage.map((part, index) => (
+        <React.Fragment key={index}>
+          {part}
+          {index < formattedMessage.length - 1 && <br />}
+        </React.Fragment>
+      ))}
+    </span>
   );
 };
 

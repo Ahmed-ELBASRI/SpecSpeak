@@ -5,7 +5,7 @@ import { ScrollRestoration } from "react-router-dom";
 const FileExtraction = () => {
   return (
     <>
-      <PageHeader pageName={"Chat with GPT"}></PageHeader>
+      <PageHeader pageName={"Extracted endpoints"}></PageHeader>
       <ExtractionTable />
       <ScrollRestoration></ScrollRestoration>
     </>

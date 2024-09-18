@@ -1,53 +1,66 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./ExtractionTable.css";
-import "primereact/resources/themes/lara-dark-cyan/theme.css"; // Dark theme for PrimeReact
-// import 'primeicons/primeicons.css';
+import "primereact/resources/themes/lara-dark-cyan/theme.css";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { InputSwitch } from "primereact/inputswitch";
-const ExtractionTable = () => {
-  const [products, setProducts] = useState([]);
-  const [selectedProducts, setSelectedProducts] = useState(null);
-  const [rowClick, setRowClick] = useState(true);
+import { analyzeSelectedEndpoints } from "../Services/ChatService";
+import { useNavigate } from "react-router-dom";
+import Loading from "../Loading/Loading"; // Adjust the import path as necessary
 
-  const ProductService = {
-    getProductsData() {
-      return [
-        {
-          id: "1000",
-          code: "f230fh0g3",
-          name: "Bamboo Watch",
-          description: "Product Description",
-          image: "bamboo-watch.jpg",
-          price: 65,
-          category: "Accessories",
-          quantity: 24,
-          inventoryStatus: "INSTOCK",
-          rating: 5,
-        },
-        {
-          id: "1001",
-          code: "nvklal433",
-          name: "Black Watch",
-          description: "Product Description",
-          image: "black-watch.jpg",
-          price: 72,
-          category: "Accessories",
-          quantity: 61,
-          inventoryStatus: "INSTOCK",
-          rating: 4,
-        },
-      ];
-    },
-    getProductsMini() {
-      return Promise.resolve(this.getProductsData().slice(0, 5));
-    },
-  };
+const ExtractionTable = () => {
+  const [endpoints, setEndpoints] = useState([]);
+  const [selectedEndpoints, setSelectedEndpoints] = useState(null);
+  const [rowClick, setRowClick] = useState(true);
+  const [isLoading, setIsLoading] = useState(false); // New state for loading
+  const navigate = useNavigate();
+
   useEffect(() => {
-    ProductService.getProductsMini().then((data) => setProducts(data));
+    const fetchAndTransformData = () => {
+      const storedEndpoints = localStorage.getItem("apiEndpoints");
+      if (storedEndpoints) {
+        const endpointsData = JSON.parse(storedEndpoints);
+
+        const transformedData = endpointsData.flatMap((endpoint) =>
+          endpoint.methods.map((method) => ({
+            key: `${endpoint.path}-${method}`,
+            path: endpoint.path,
+            method: method.toUpperCase(),
+          }))
+        );
+        console.log(transformedData);
+        setEndpoints(transformedData);
+      }
+    };
+
+    fetchAndTransformData();
   }, []);
+
+  const handleAnalyzeClick = async () => {
+    if (!selectedEndpoints || selectedEndpoints.length === 0) {
+      console.log("No endpoints selected.");
+      return;
+    }
+
+    const endpointKeys = selectedEndpoints.map((endpoint) => endpoint.key);
+    setIsLoading(true); // Start loading
+
+    try {
+      const analysisResult = await analyzeSelectedEndpoints(endpointKeys);
+      const parsedAnalysisResult = JSON.stringify(analysisResult);
+      localStorage.setItem("analysisResult", parsedAnalysisResult);
+      navigate("/chat");
+    } catch (error) {
+      console.error("Error analyzing selected endpoints:", error);
+    } finally {
+      setIsLoading(false); // Stop loading
+    }
+  };
+
   return (
     <div className="extracted-endpoint-container">
+      {isLoading && <Loading />}{" "}
+      {/* Conditionally render the loading spinner */}
       <div className="test">
         <div className="flex justify-content-center align-items-center mb-4 gap-2">
           <label htmlFor="input-rowclick" className="flex items-center gap-2">
@@ -61,31 +74,31 @@ const ExtractionTable = () => {
         </div>
         <DataTable
           className="radius"
-          value={products}
+          value={endpoints}
           selectionMode={rowClick ? null : "checkbox"}
-          selection={selectedProducts}
-          onSelectionChange={(e) => setSelectedProducts(e.value)}
-          dataKey="id"
+          selection={selectedEndpoints}
+          onSelectionChange={(e) => setSelectedEndpoints(e.value)}
+          dataKey="key"
           tableStyle={{ minWidth: "50rem" }}
+          emptyMessage="No available options or Invalid OpenApi file"
         >
           <Column
             selectionMode="multiple"
             headerStyle={{ width: "3rem" }}
           ></Column>
-          <Column field="code" header="Endpoint"></Column>
-          <Column field="name" header="Method"></Column>
-          {/* <Column field="category" header="Category"></Column>
-          <Column field="quantity" header="Quantity"></Column> */}
+          <Column field="path" header="Endpoint"></Column>
+          <Column field="method" header="Method"></Column>
         </DataTable>
       </div>
       <div className="upload-button-container">
-          <button
-            type="button"
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-          >
-            Analyze 🔍
-          </button>
-        </div>
+        <button
+          type="button"
+          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+          onClick={handleAnalyzeClick}
+        >
+          Analyze 🔍
+        </button>
+      </div>
     </div>
   );
 };

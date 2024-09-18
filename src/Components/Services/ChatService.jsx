@@ -13,7 +13,15 @@ export const analyzeAPI = async (apiDescription) => {
     throw error;
   }
 };
-
+export const analyzeSelectedEndpoints = async (selectedEndpoints) => {
+  try {
+    const response = await axios.post(`${BASE_URL}/analyze`, selectedEndpoints);
+    return response.data;
+  } catch (error) {
+    console.error('Error analyzing selected endpoints:', error);
+    throw error;
+  }
+};
 export const continueConversation = async (message) => {
   try {
     const response = await axios.post(`${BASE_URL}/continue`, {
@@ -39,20 +47,19 @@ export const executeAPI = async (apiEndpoint, method, body) => {
     throw error;
   }
 };
-
-export const uploadOpenAPIFile = async (file) => {
+export const extractApiDetails = async (file) => {
   const formData = new FormData();
   formData.append('file', file);
 
   try {
-    const response = await axios.post(`${BASE_URL}/upload`, formData, {
+    const response = await axios.post(`${BASE_URL}/extract`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
     });
     return response.data;
   } catch (error) {
-    console.error('Error uploading OpenAPI file:', error);
+    console.error('Error extracting API details:', error);
     throw error;
   }
 };
