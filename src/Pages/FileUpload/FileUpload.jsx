@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import "./FileUpload.css";
 import { Image } from "./Image.js";
 import PageHeader from "../../Components/Shared/PageHeader/PageHeader";
@@ -32,6 +32,7 @@ const FileUpload = (props) => {
       }
       const updatedList = [...fileList, newFile];
       setFileList(updatedList);
+      // eslint-disable-next-line react/prop-types
       props.onFileChange(updatedList);
     }
   };
@@ -45,6 +46,7 @@ const FileUpload = (props) => {
   const fileRemove = (file) => {
     const updatedList = fileList.filter((f) => f !== file);
     setFileList(updatedList);
+    // eslint-disable-next-line react/prop-types
     props.onFileChange(updatedList);
   };
 
@@ -167,10 +169,9 @@ const FileUpload = (props) => {
       <ScrollRestoration />
     </>
   );
+  
 };
 
-FileUpload.propTypes = {
-  onFileChange: PropTypes.func,
-};
+
 
 export default FileUpload;

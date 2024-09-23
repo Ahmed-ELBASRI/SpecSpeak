@@ -1,16 +1,18 @@
 import React from "react";
 import "./inputFiled.css";
-const InputFiled = ({ label, type, name, placeholder, required }) => {
+// eslint-disable-next-line react/prop-types
+const InputFiled = ({ label, type, name, placeholder, required, action }) => {
   return (
     <div className="form-group">
-      {label && <label for="">{label}</label>}
+      {label && <label>{label}</label>}
       <input
         type={type}
-        id="contact-name"
+        id=""
         className=" form-control requiredField input-label"
         name={name}
         placeholder={placeholder}
         required={required}
+        onChange={(e) => {action(e)}}
       />
     </div>
   );

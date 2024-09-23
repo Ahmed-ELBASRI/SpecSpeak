@@ -304,6 +304,12 @@
 }
 
 .call_to_action {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.call_to_action > *:not(:last-child) {
+  margin-right: 20px; /* Add space between the children */
 }
 
 .call_to_action a {

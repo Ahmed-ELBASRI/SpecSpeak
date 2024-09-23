@@ -4,12 +4,13 @@ import { router } from "./Route/Route";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
-
 const App = () => {
   useEffect(() => {
     AOS.init();
   }, []);
-  return <RouterProvider router={router} />;
+  return (
+      <RouterProvider router={router} />
+  );
 };
 
 export default App;
