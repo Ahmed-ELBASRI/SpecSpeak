@@ -18,7 +18,7 @@ const Login = () => {
     e.preventDefault();
     try {
       await login(email, password);
-      // navigate("/");
+      navigate("/");
     } catch (error) {
       console.error("Failed to login", error);
     }
@@ -51,9 +51,9 @@ const Login = () => {
                     action={(e) => setPassword(e.target.value)}
                   />
                   <div className="form-group col-lg-12">
-                    <Link className="home_one" onSubmit={handleLogin} to={"/"}>
+                    <button className="home_one" to={"/"}>
                       Login
-                    </Link>
+                    </button>
                   </div>
                   <div className="form-group col-lg-12">
                     <p>

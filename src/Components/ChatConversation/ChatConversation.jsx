@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import "./ChatConversation.css";
 import Loading from "../Loading/Loading";
 import ChatMessage from "../ChatMessage/ChatMessage";
-import CardsConent from "./CardsContent";
+import CardsContent from "./CardsContent";
 import { continueConversation, executeAPI } from "../Services/ChatService";
 // import axios from "axios";
 const ChatConversation = () => {
@@ -95,7 +95,7 @@ const ChatConversation = () => {
     <main className="sm:w-[90%] md:w-[70%] w-full mt-10 mx-auto flex flex-col items-center justify-center px-4">
       {isLoading && <Loading />}
       {chatMessages.length === 0 ? (
-        <CardsConent />
+        <CardsContent />
       ) : (
         <div className="relative w-full flex flex-col">
           <div className="overflow-y-auto max-h-[400px] overflow-x-hidden w-full chat-container">
