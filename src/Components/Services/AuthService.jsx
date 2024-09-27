@@ -51,6 +51,8 @@ const register = async (firstName, lastName, email, password) => {
 const logout = () => {
   localStorage.removeItem("token");
   localStorage.removeItem("username");
+  localStorage.removeItem("analysisResult");
+  localStorage.removeItem("apiEndpoints");
 
 };
 

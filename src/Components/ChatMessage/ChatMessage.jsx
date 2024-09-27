@@ -1,25 +1,41 @@
 import React, { useState, useEffect, memo } from "react";
 import PropTypes from "prop-types";
 
+// Component for typing effect
 const TypedText = ({ message = "", delay = 10 }) => {
   const [revealedLetters, setRevealedLetters] = useState(0);
 
-  // Ensure that message is a string
+  // Ensure message is a string or safely convert it
   const safeMessage = typeof message === "string" ? message : JSON.stringify(message);
 
+  // Check if message contains HTML by simple heuristics
+  const containsHTML = /<\/?[a-z][\s\S]*>/i.test(safeMessage);
+
   useEffect(() => {
-    const interval = setInterval(() => {
-      setRevealedLetters((l) => l + 1);
-    }, delay);
+    if (!containsHTML) {
+      const interval = setInterval(() => {
+        setRevealedLetters((l) => l + 1);
+      }, delay);
 
-    if (revealedLetters >= safeMessage.length) {
-      clearInterval(interval);
+      if (revealedLetters >= safeMessage.length) {
+        clearInterval(interval);
+      }
+
+      return () => clearInterval(interval);
     }
+  }, [safeMessage, delay, revealedLetters, containsHTML]);
 
-    return () => clearInterval(interval);
-  }, [safeMessage, delay, revealedLetters]);
+  // For HTML content: render immediately without waiting
+  if (containsHTML) {
+    return (
+      <div
+        dangerouslySetInnerHTML={{ __html: safeMessage }}
+        style={{ whiteSpace: "pre-wrap" }} // Preserve whitespaces and newlines
+      />
+    );
+  }
 
-  // Format the partially typed message by splitting on newline and inserting <br />
+  // For plain text: reveal progressively with typing effect
   const formattedMessage = safeMessage.substring(0, revealedLetters).split("\n");
 
   return (
@@ -27,17 +43,11 @@ const TypedText = ({ message = "", delay = 10 }) => {
       {formattedMessage.map((part, index) => (
         <React.Fragment key={index}>
           {part}
-          {index < formattedMessage.length - 1 && <br />}
+          {index < formattedMessage.length - 1 && <br />} {/* Insert <br> for newlines */}
         </React.Fragment>
       ))}
     </span>
   );
-};
-
-// Add prop-types validation for TypedText
-TypedText.propTypes = {
-  message: PropTypes.string.isRequired,
-  delay: PropTypes.number,
 };
 
 const ChatMessage = ({ message }) => {
@@ -48,7 +58,12 @@ const ChatMessage = ({ message }) => {
   );
 };
 
-// Add prop-types validation for ChatMessage
+// PropTypes validation for the components
+TypedText.propTypes = {
+  message: PropTypes.string.isRequired,
+  delay: PropTypes.number,
+};
+
 ChatMessage.propTypes = {
   message: PropTypes.string.isRequired,
 };

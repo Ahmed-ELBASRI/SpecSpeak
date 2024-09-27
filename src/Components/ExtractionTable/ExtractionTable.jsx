@@ -28,7 +28,6 @@ const ExtractionTable = () => {
             method: method.toUpperCase(),
           }))
         );
-        console.log(transformedData);
         setEndpoints(transformedData);
       }
     };

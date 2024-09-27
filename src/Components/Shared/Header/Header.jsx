@@ -3,7 +3,7 @@ import "./header.css";
 import { Link } from "react-router-dom";
 import { TfiAngleDown, TfiMenu } from "react-icons/tfi";
 import logo from "../../../assets/img/pec.png";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../Context/AuthContext";
 
 const menuList = [
@@ -63,12 +63,12 @@ const Header = () => {
       ? header.classList.add("navbar-fixed")
       : header.classList.remove("navbar-fixed");
   };
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
 
   const handleLogout = () => {
     logout();
-    navigate("/login"); // Redirect to the home page after logout
+    // navigate("/login"); 
   };
   return (
     <header

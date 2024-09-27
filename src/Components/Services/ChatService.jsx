@@ -50,12 +50,25 @@ export const analyzeSelectedEndpoints = async (selectedEndpoints) => {
     throw error;
   }
 };
+export const getApiEndpoints = () => {
+  const endpoints = localStorage.getItem('apiEndpoints');
+  return endpoints ? JSON.parse(endpoints) : [];
+};
+
 export const continueConversation = async (message) => {
+  const apiEndpoints = getApiEndpoints(); 
+  console.log({
+    message,
+    ...apiEndpoints
+
+  })
   try {
     const response = await axios.post(`${BASE_URL}/continue`, {
       message,
+      apiEndpoints
     },
-    {headers:token});
+    { headers: token }); 
+
     return response.data;
   } catch (error) {
     console.error('Error continuing conversation:', error);
@@ -63,12 +76,14 @@ export const continueConversation = async (message) => {
   }
 };
 
-export const executeAPI = async (apiEndpoint, method, body) => {
+
+
+
+export const executeAPI = async (apiEndpoint, method) => {
   try {
     const response = await axios.post(`${BASE_URL}/execute`, {
       apiEndpoint,
       method,
-      body,
     },
     {headers:token});
     return response.data;

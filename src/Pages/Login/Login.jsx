@@ -18,7 +18,7 @@ const Login = () => {
     e.preventDefault();
     try {
       await login(email, password);
-      navigate("/");
+      // navigate("/");
     } catch (error) {
       console.error("Failed to login", error);
     }
@@ -33,7 +33,7 @@ const Login = () => {
             <div className="col-lg-6 offset-lg-3 col-xs-12">
               <div className="login">
                 <h4 className="login_register_title">Already a member? Sign in:</h4>
-                <form onSubmit={handleLogin}>
+                <form onSubmit={handleLogin} >
                   <InputFiled
                     label={"Email address"}
                     name={"email"}
@@ -51,9 +51,9 @@ const Login = () => {
                     action={(e) => setPassword(e.target.value)}
                   />
                   <div className="form-group col-lg-12">
-                    <button className="home_one" type="submit">
+                    <Link className="home_one" onSubmit={handleLogin} to={"/"}>
                       Login
-                    </button>
+                    </Link>
                   </div>
                   <div className="form-group col-lg-12">
                     <p>
