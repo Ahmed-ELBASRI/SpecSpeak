@@ -12,6 +12,7 @@ import ApiDocumentation from "../Pages/ApiDocumentation/ApiDocumentation";
 // import { AiFillPauseCircle } from "react-icons/ai";
 import FileUpload from "../Pages/FileUpload/FileUpload";
 import Chat from "../Pages/Chat/Chat"
+import FileExtraction from "../Pages/FileExtraction/FileExtraction";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -56,6 +57,10 @@ export const router = createBrowserRouter([
       {
         path:"/chat",
         element: <Chat/>
+      },
+      {
+        path:"/endpoints",
+        element:<FileExtraction/>
       }
     ],
   },

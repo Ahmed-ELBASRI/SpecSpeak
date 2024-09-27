@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./header.css";
 import { Link } from "react-router-dom";
 import { TfiAngleDown, TfiMenu } from "react-icons/tfi";
 import logo from "../../../assets/img/pec.png";
+// import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../Context/AuthContext";
 
 const menuList = [
   {
@@ -40,27 +42,33 @@ const menuList = [
 ];
 
 const Header = () => {
+  const { currentUser, logout } = useAuth();
   const [isDropdownOpen, setIsDropdownOpen] = useState({
     selectId: null,
     active: false,
   });
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // --------- scroll to top sticky navbar
   useEffect(() => {
     window.addEventListener("scroll", isSticky);
     return () => {
       window.removeEventListener("scroll", isSticky);
     };
   }, []);
-  // --------- scroll to top sticky navbar
-  const isSticky = (e) => {
+  const isSticky = () => {
     const header = document.getElementById("navigation");
     const scrollTop = window.scrollY;
 
     scrollTop >= 35
       ? header.classList.add("navbar-fixed")
       : header.classList.remove("navbar-fixed");
+  };
+  // const navigate = useNavigate();
+
+
+  const handleLogout = () => {
+    logout();
+    // navigate("/login"); 
   };
   return (
     <header
@@ -94,7 +102,6 @@ const Header = () => {
                         ) : (
                           <Link className="nav-link" to={path}>
                             {name}{" "}
-
                           </Link>
                         )}
                         {/* <Link className="nav-link" to={path}>
@@ -177,7 +184,16 @@ const Header = () => {
           </div>
           <div className=" d-flex d-lg-block align-items-center">
             <div className="call_to_action">
-              <Link to={"/Login"}>Sign in</Link>
+              {currentUser ? (
+                <>
+                  
+                  <span>Hey {currentUser}</span>
+                  {/* <button onClick={handleLogout}>Log out</button> */}
+                  <Link onClick={handleLogout} to={"/login"}>Log out</Link>
+                </>
+              ) : (
+                <Link to={"/login"}>Log in</Link>
+              )}
             </div>
             <div
               className="d-lg-none d-block menu_icon"

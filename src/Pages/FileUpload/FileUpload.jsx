@@ -1,10 +1,10 @@
 import { useRef, useState } from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import "./FileUpload.css";
 import { Image } from "./Image.js";
 import PageHeader from "../../Components/Shared/PageHeader/PageHeader";
 import { ScrollRestoration, useNavigate } from "react-router-dom";
-import { uploadOpenAPIFile } from "../../Components/Services/ChatService";
+import { extractApiDetails } from "../../Components/Services/ChatService"; // Updated function to handle upload and extraction
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 
@@ -32,6 +32,7 @@ const FileUpload = (props) => {
       }
       const updatedList = [...fileList, newFile];
       setFileList(updatedList);
+      // eslint-disable-next-line react/prop-types
       props.onFileChange(updatedList);
     }
   };
@@ -45,6 +46,7 @@ const FileUpload = (props) => {
   const fileRemove = (file) => {
     const updatedList = fileList.filter((f) => f !== file);
     setFileList(updatedList);
+    // eslint-disable-next-line react/prop-types
     props.onFileChange(updatedList);
   };
 
@@ -53,28 +55,28 @@ const FileUpload = (props) => {
       setUploadStatus("Please select a file to upload.");
       return;
     }
-
+  
     try {
       setUploadStatus("Uploading...");
-      const response = await uploadOpenAPIFile(fileList[0]);
-
+      const response = await extractApiDetails(fileList[0]);
+  
       if (!response) {
         setUploadStatus("Error uploading file. Please try again.");
         setToastSeverity("warning");
         setShowToast(true);
         return;
       }
-
-      // Store the uploaded file's result in localStorage
-      localStorage.setItem("uploadedFile", JSON.stringify(response));
-      setUploadStatus("File uploaded successfully.");
+  
+      // Store the API endpoints' result in localStorage
+      localStorage.setItem("apiEndpoints", JSON.stringify(response));
+      setUploadStatus("File uploaded and extracted successfully.");
       setToastSeverity("success");
       setShowToast(true);
-
-      // Redirect to Chat page after showing success toast for 3 seconds
+  
+      // Redirect to the Extraction Table page after showing success toast for 3 seconds
       setTimeout(() => {
         setShowToast(false);
-        navigate("/chat");
+        navigate("/endpoints");
       }, 3000);
     } catch (error) {
       console.error("Error during file upload:", error);
@@ -83,6 +85,7 @@ const FileUpload = (props) => {
       setShowToast(true);
     }
   };
+  
 
   const handleClose = () => {
     setShowToast(false);
@@ -138,7 +141,7 @@ const FileUpload = (props) => {
               onClick={handleFileUpload}
               className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
             >
-              Submit ✔
+              Upload ✔
             </button>
           </div>
         </div>
@@ -146,7 +149,12 @@ const FileUpload = (props) => {
 
       {/* Toast notifications */}
       {showToast && (
-        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
+        <Snackbar
+          open={showToast}
+          autoHideDuration={6000}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        >
           <Alert
             onClose={handleClose}
             severity={toastSeverity}
@@ -161,10 +169,9 @@ const FileUpload = (props) => {
       <ScrollRestoration />
     </>
   );
+  
 };
 
-FileUpload.propTypes = {
-  onFileChange: PropTypes.func,
-};
+
 
 export default FileUpload;
