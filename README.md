@@ -6,6 +6,8 @@ SpecSpeak is a tool designed to help users easily generate and manage specificat
 ## Features
 
 - **Easy Specification Creation**: Quickly create detailed specifications with a user-friendly interface.
+
+## Future Features
 - **Version Control**: Keep track of changes and revisions to your specifications.
 - **Collaboration**: Share specifications with team members and collaborate in real-time.
 - **Export Options**: Export specifications to various formats such as PDF, DOCX, and HTML.
